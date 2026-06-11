@@ -1,0 +1,25 @@
+module stimuli(  );
+    reg clk,load;
+    reg [3:0] Din;
+    wire Qout;
+
+    PISO_Shift_Reg dut(.clk(clk),.load(load),.Din(Din),.Qout(Qout));
+    
+    always #5 clk = ~clk;
+    
+    initial
+    begin
+    // Initialization
+            clk = 0;
+            load = 0;
+            Din = 4'b0000;
+    
+            // Load parallel data
+            #10 Din = 4'b1011;
+                load = 1;
+            #10 load = 0;
+    
+            // Shift bits out for a few cycles
+            #80 $stop;
+    end
+endmodule
