@@ -1,0 +1,21 @@
+module PISO_Shift_Reg(
+    input clk,load,
+    input [3:0] Din,
+    output Qout
+    );
+    
+     reg [3:0] shift_reg;
+
+    always @(posedge clk) 
+    begin
+        if (load)
+            shift_reg <= Din;                // Load parallel data into register
+        else 
+            begin
+                shift_reg <= {1'b0, shift_reg [3:1]};
+            end
+    end
+    
+    assign Qout = shift_reg[0];            // Output LSB as serial output
+    
+endmodule
